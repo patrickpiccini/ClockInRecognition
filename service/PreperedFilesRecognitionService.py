@@ -14,10 +14,12 @@ class PreperedFilesRecognition(object):
 	def __init__(self) -> None:
 		self.current_dir 	= os.getcwd()
 		self.face_dir		= os.path.join(self.current_dir + '\\data\\faces\\')
+		self.face_clock_in  = os.path.join(self.current_dir + '\\data\\clockin\\')
 		self.list_of_file 	= []
 		self.list_of_names	= []
 		
 		self.createRecognizedFacesDir()
+		self.createFaceClockInDir()
 		
 
 	def createRecognizedFacesDir(self) -> None:
@@ -25,6 +27,10 @@ class PreperedFilesRecognition(object):
 			os.mkdir(self.current_dir + "\\data\\faces\\")
 
 		self.loadListOfFiles()
+	
+	def createFaceClockInDir(self) -> None:
+		if not os.path.exists(self.face_clock_in):
+			os.mkdir(self.current_dir + "\\data\\clockin\\")
 
 
 	def loadListOfFiles(self) -> None:
@@ -42,7 +48,6 @@ class PreperedFilesRecognition(object):
 				name = file.replace(self.face_dir, '').replace(f".{ext}", '')
 				
 			self.list_of_names.append(name)
-		
 
 
 

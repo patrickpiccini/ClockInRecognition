@@ -22,8 +22,8 @@ for i in range(number_files):
     presets = face_recognition.load_image_file(list_of_files[i])
     encoding = face_recognition.face_encodings(presets)[0]
     faces_encodings.append(encoding)
-    nome = names[i].replace(cur_direc+"\\faces\\", "")
-    nome = nome.replace(".jpg", "")
+    nome = names[i].replace(cur_direc+"\\data\\faces\\", "")
+    nome = nome.replace(".jpeg", "")
     names[i] = nome
     faces_names.append(names[i])
 
@@ -44,6 +44,8 @@ while True:
         face_encodings = face_recognition.face_encodings(
             rgb_small_frame, face_locations)
         face_names = []
+
+        print(faces_encodings)
 
         for face_encoding in face_encodings:
             matches = face_recognition.compare_faces(
