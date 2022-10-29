@@ -28,7 +28,7 @@ class Recognizer(PreperedFilesRecognition):
 			self.faces_encodings.append(encoding)
 			self.registred_faces_names.append(self.list_of_names[i])
 
-	def recognizeFaces(self, small_frame) -> None:
+	def recognizeFaces(self, small_frame: object) -> None:
 		self.captured_face_locations = face_recognition.face_locations(small_frame)
 		self.captured_face_encodings = face_recognition.face_encodings(
 			small_frame, self.captured_face_locations)
@@ -37,7 +37,8 @@ class Recognizer(PreperedFilesRecognition):
 		for face_encoding in self.captured_face_encodings:
 			matches = face_recognition.compare_faces(
 				self.faces_encodings, face_encoding)
-			# print(matches)
+			
+			## marca ponto aqui
 
 			name = "Desconhecido"
 			face_distances = face_recognition.face_distance(
@@ -47,5 +48,6 @@ class Recognizer(PreperedFilesRecognition):
 
 			if matches[best_match_index]:
 				name = self.registred_faces_names[best_match_index]
-			
+
 			self.captured_face_names.append(name)
+			print(self.captured_face_names)
