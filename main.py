@@ -14,7 +14,7 @@ while True:
 [2] - Registrar Ponto
 [9] - Sair
 ======================""")
-    inp = input("escola uma opção: ")
+    inp = input("Escolha uma opção: ")
 
     if inp == "1":
         CI = ClockIn()

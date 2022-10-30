@@ -51,7 +51,7 @@ class OpenCamera():
 				break
 
 			if self.key == ord('s'):
-				saved_dir = f'.\\data\\faces\\{name.replace(" ","_")}_{user_id}.jpg'
+				saved_dir = f'.\\data\\faces\\{name}_{user_id}.jpg'
 				cv.imwrite(saved_dir, self.frame)
 				break
 		

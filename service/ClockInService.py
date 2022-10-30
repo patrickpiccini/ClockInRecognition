@@ -26,7 +26,7 @@ class ClockIn(OpenCamera):
 		# DB = DataBase()
 		user_existe = False
 		while user_existe == False:
-			name = input("Nome do colaborador: ")
+			name = input("Nome do colaborador: ").lower().replace(' ','_')
 			age = input("Idade do colaborador: ")
 			password = input("Senha do colaborador: ")
 			# name = 'patrick berlatto piccini'
