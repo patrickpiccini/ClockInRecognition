@@ -5,10 +5,11 @@ __exename__ = 'main'
 
 import cv2 as cv
 import numpy as np
-import os
+import os, random
 
 
 from .RecognizerService import Recognizer
+
 
 # Open notebook camera    
 class OpenCamera():
@@ -27,7 +28,6 @@ class OpenCamera():
 			self.small_frame = cv.resize(self.frame, (0,0), fx=0.25, fy=0.25)
 
 			RE.recognizeFaces(self.small_frame)
-			
 			self.drawFacesIdentificator(RE.captured_face_locations, RE.captured_face_names)
 			
 			cv.imshow("camera", self.frame)
@@ -35,11 +35,13 @@ class OpenCamera():
 			if self.key == 27:
 				break
 
-		cv.waitKey(0)
 		self.camera.release()
 		cv.destroyAllWindows()
 
-	def screenShot(self,name) -> None:
+	def screenShot(self,name: str, user_id: int = None) -> str:
+		if not user_id:
+			user_id = self.userRandonId()
+
 		while True:
 			self.frame = self.camera.read()[1]
 			cv.imshow("camera", self.frame)
@@ -49,14 +51,12 @@ class OpenCamera():
 				break
 
 			if self.key == ord('s'):
-				saved_dir = f'.\\data\\faces\\{name}.jpg'
+				saved_dir = f'.\\data\\faces\\{name.replace(" ","_")}_{user_id}.jpg'
 				cv.imwrite(saved_dir, self.frame)
 				break
 		
-		cv.waitKey(0)
 		self.camera.release()
 		cv.destroyAllWindows()
-		print('aqui2222')
 		return saved_dir
 		
 
@@ -77,3 +77,7 @@ class OpenCamera():
 			font = cv.FONT_HERSHEY_DUPLEX
 			cv.putText(self.frame, name, (left + 6, bottom - 6),
 						font, 0.5, (255, 255, 255), 1)
+
+	def userRandonId(self) -> str :
+		number = random.randint(1,10000)
+		return str(f'{number:0>5}')
