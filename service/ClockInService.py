@@ -35,27 +35,28 @@ class ClockIn(OpenCamera):
 			# password_again = input("Repita a Senha:  ")
 			# if password_again == password:
 
-			user_existe = self.verifyUserExistence(name)
+			user_existe, user_id = self.verifyUserExistence(name)
 
-		saved_image = self.screenShot(name)
+		saved_image = self.screenShot(name, user_id)
 		print(saved_image)
 		encoded_image = CI.encodeImage(saved_image)
 		# print(len(encoded_image))
 
 		# DB.inserUser(self.name_employee , self.age_employee, self.getPassEmployee(), encoded_image)
 
-	def verifyUserExistence(self, name):
-		dir = f'.\\data\\faces\\{name}.jpg'
-		if os.path.exists(dir):
-			print('='*30)
-			choice = input("Usuario com nome já cadastrado!\nDeseja continuar [Y|N] ")
+	def verifyUserExistence(self, name: str) -> bool:
+		for _, _, file in os.walk('.\\data\\faces\\'):
+			for name_in_file in file:
+				if name_in_file[:-10] == name:
+					print('='*30)
+					choice = input("Usuario com nome já cadastrado!\nDeseja continuar [Y|N] ")
 
-			match choice.lower():
-				case "y":
-					return True
-				case "n":
-					print("------Preencha os dados novamente------")
-					return False
-		return True
+					match choice.lower():
+						case "y":
+							return True, name_in_file[-9:-4]
+						case "n":
+							print("------Preencha os dados novamente------")
+							return False, None
+					return True, None
 
 
