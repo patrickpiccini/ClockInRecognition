@@ -3,6 +3,7 @@ __author__  = 'Patrick Berlatto Piccini'
 __title__   = 'Interações com Banco de Dados'
 __exename__ = 'main'
 
+import base64
 from distutils import extension
 import cv2 as cv
 from datetime import datetime
@@ -20,12 +21,12 @@ class DataBase(ConnectionDatabase):
 		return date_time_now.strftime('%Y/%m/%d %H:%M')
 
 
-	def inserUser(self, name, age, password, img) -> None:
+	def inserUser(self, name: str, age: int, password: str, img) -> None:
 		try:
 			date= self.getDateTime()
 			query_insert = 'INSERT INTO users (fullname, password, age, photo, created_at, updated_at)VALUES (%s,%s,%s,%s,%s,%s)' 
-			vars_query = (name,age,password,img, date, date)
-			self.cursor(query_insert, vars_query)
+			vars_query = (name,password,int(age),img, date, date)
+			self.cursor.execute(query_insert, vars_query)
 			self.connection.commit()
 
 			print('[✓] INSERTION DONE IN POSTGRES!')
