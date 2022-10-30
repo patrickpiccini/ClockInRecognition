@@ -7,7 +7,7 @@ import numpy as np
 
 class ConvertColor():
 
-    def __init__(self, frame) -> None:
+    def __init__(self, frame: object) -> None:
         self.cam = frame        
 
     def convert_to_gray(self) -> object:

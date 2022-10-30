@@ -5,6 +5,7 @@ __exename__ = 'main'
 
 import cv2 as cv
 import numpy as np
+import os
 
 
 from .RecognizerService import Recognizer
@@ -14,30 +15,53 @@ class OpenCamera():
 
 	def __init__(self) -> None:
 		self.camera = cv.VideoCapture(0, cv.CAP_DSHOW)
-		self.RE = Recognizer()
-		self.frame = None
+		print("Capturando Camera...")
+		self.frame=None
+		self.small_frame=None
+		self.key=None
 
-	def openCamera(self) -> None:
+	def openRecognitionCamera(self) -> None:
+		RE = Recognizer()
 		while True:
 			self.frame = self.camera.read()[1]
-			small_frame = cv.resize(self.frame, (0,0), fx=0.25, fy=0.25)
+			self.small_frame = cv.resize(self.frame, (0,0), fx=0.25, fy=0.25)
 
-			self.RE.recognizeFaces(small_frame)
-			self.drawFacesIdentificator(self.RE.captured_face_locations, self.RE.captured_face_names)
+			RE.recognizeFaces(self.small_frame)
+			
+			self.drawFacesIdentificator(RE.captured_face_locations, RE.captured_face_names)
 			
 			cv.imshow("camera", self.frame)
-			key = cv.waitKey(60)
-			if key == 27:
+			self.key = cv.waitKey(10)
+			if self.key == 27:
 				break
 
 		cv.waitKey(0)
+		self.camera.release()
 		cv.destroyAllWindows()
 
-	def drawFacesIdentificator(self,face_locations,face_names) -> None:
-		print("faces camera",face_locations)
-		print("names camera",face_names)
+	def screenShot(self,name) -> None:
+		while True:
+			self.frame = self.camera.read()[1]
+			cv.imshow("camera", self.frame)
+			self.key = cv.waitKey(10)
+
+			if self.key == 27:
+				break
+
+			if self.key == ord('s'):
+				saved_dir = f'.\\data\\faces\\{name}.jpg'
+				cv.imwrite(saved_dir, self.frame)
+				break
+		
+		cv.waitKey(0)
+		self.camera.release()
+		cv.destroyAllWindows()
+		print('aqui2222')
+		return saved_dir
+		
+
+	def drawFacesIdentificator(self,face_locations: dict, face_names: dict) -> None:
 		for (top, right, bottom, left), name in zip(face_locations, face_names):
-			print('name',name)
 			top = int(top*4)
 			right = int(right*4)
 			bottom = int(bottom * 4)
