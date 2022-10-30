@@ -3,7 +3,7 @@ __author__  = 'Patrick Berlatto Piccini'
 __title__   = 'Reconhecimento de rostos registrados'
 __exename__ = 'main'
 
-import face_recognition
+import face_recognition, sys
 import numpy as np
 
 from .PreperedFilesRecognitionService import PreperedFilesRecognition
@@ -21,12 +21,18 @@ class Recognizer(PreperedFilesRecognition):
 
 
 	def recognizeRegisteredFaces(self) -> None:
-
 		for i in range(len(self.list_of_file)):
-			presets = face_recognition.load_image_file(self.list_of_file[i])
-			encoding = face_recognition.face_encodings(presets)[0]
-			self.faces_encodings.append(encoding)
-			self.registred_faces_names.append(self.list_of_names[i])
+			try: 
+				presets = face_recognition.load_image_file(self.list_of_file[i])
+				encoding = face_recognition.face_encodings(presets)[0]
+				self.faces_encodings.append(encoding)
+				self.registred_faces_names.append(self.list_of_names[i])
+			except IndexError as erro:
+
+				print("Verifique se há imagem cadastrada sem um rosto claramene exposto\n",erro)
+				sys.exit(1)
+
+
 
 	def recognizeFaces(self, small_frame: object) -> None:
 		self.captured_face_locations = face_recognition.face_locations(small_frame)

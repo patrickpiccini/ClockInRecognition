@@ -49,14 +49,14 @@ class ClockIn(OpenCamera):
 			for name_in_file in file:
 				if name_in_file[:-10] == name:
 					print('='*30)
-					choice = input("Usuario com nome já cadastrado!\nDeseja continuar [Y|N] ")
+					choice = input("Usuario com nome já cadastrado!\nDeseja atualizar [Y|N] ")
 
 					match choice.lower():
 						case "y":
 							return True, name_in_file[-9:-4]
 						case "n":
 							print("------Preencha os dados novamente------")
-							return False, None
-					return True, None
+							return False, False
+		return True, False
 
 
