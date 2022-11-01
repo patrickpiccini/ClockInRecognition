@@ -3,7 +3,7 @@ __author__  = 'Patrick Berlatto Piccini'
 __title__   = 'Interações com Banco de Dados'
 __exename__ = 'main'
 
-from Utils.Utils import getDateTime, getDate
+from Utils.Utils import getDateTime, getDate, done, critical
 import cv2 as cv
 
 from config.DataBaseConnection import ConnectionDatabase
@@ -22,10 +22,9 @@ class DataBase(ConnectionDatabase):
 			self.cursor.execute(query_insert, vars_query)
 			self.connection.commit()
 
-			print('[✓] INSERTION DONE IN POSTGRES!')
+			done('INSERTION DONE IN POSTGRES!')
 		except Exception as error:
-			print(error)
-			return f'[X] ERROR INSERTING IN POSTGRES! {error}'
+			critical('ERROR INSERTING IN POSTGRES!',error)
 		finally:
 			self.cursor.close()
 
@@ -40,11 +39,10 @@ class DataBase(ConnectionDatabase):
 			print(record)
 
 			dict_all_users = []
-			print('[✓] SELECT DONE SUCCESSFULLY IN POSTGRES!')
+			done('SELECT DONE SUCCESSFULLY IN POSTGRES!')
 			return dict_all_users
 		except Exception as error:
-			print(error)
-			return f'[X] ERROR INSERTING IN POSTGRES! {error}'
+			critical('ERROR INSERTING IN POSTGRES!',error)
 		finally:
 			self.cursor.close()
 
@@ -60,11 +58,10 @@ class DataBase(ConnectionDatabase):
 			print(record)
 
 			dict_all_users = []
-			print('[✓] SELECT DONE SUCCESSFULLY IN POSTGRES!')
+			done('SELECT DONE SUCCESSFULLY IN POSTGRES!')
 			return dict_all_users
 		except Exception as error:
-			print(error)
-			return f'[X] ERROR INSERTING IN POSTGRES! {error}'
+			critical('ERROR SELECT IN POSTGRES!',error)
 		finally:
 			self.cursor.close()
 
@@ -78,10 +75,9 @@ class DataBase(ConnectionDatabase):
 			self.cursor.execute(query_insert, vars_query)
 			self.connection.commit()
 
-			print('[✓] INSERTION DONE IN POSTGRES!')
+			done('INSERTION DONE IN POSTGRES!')
 		except Exception as error:
-			print(error)
-			return f'[X] ERROR INSERTING IN POSTGRES! {error}'
+			critical('ERROR INSERTING IN POSTGRES!',error)
 		finally:
 			self.cursor.close()
 

@@ -6,7 +6,7 @@ __exename__ = 'main'
 import cv2 as cv
 import numpy as np
 
-from Utils.Utils import userRandonId
+from Utils.Utils import userRandonId, debug
 from .RecognizerService import Recognizer
 
 
@@ -15,7 +15,7 @@ class OpenCamera():
 
 	def __init__(self) -> None:
 		self.camera = cv.VideoCapture(0, cv.CAP_DSHOW)
-		print("Capturando Camera...")
+		debug("Inicializando Camera...")
 		self.frame=None
 		self.small_frame=None
 		self.key=None
@@ -29,6 +29,7 @@ class OpenCamera():
 
 	def closeCamera(self) -> None:
 		"""Stop communication with camera's hardware end destroys all windows"""
+		debug("Finalizando Camera...")
 		self.camera.release()
 		cv.destroyAllWindows()
 
@@ -52,7 +53,6 @@ class OpenCamera():
 
 	def screenShot(self, user_id: int = None ,name: str = '') -> str:
 		"""Register new faces on system"""
-		print()
 		if user_id == False:
 			user_id = userRandonId()
 

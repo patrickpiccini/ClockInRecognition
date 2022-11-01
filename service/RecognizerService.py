@@ -10,6 +10,8 @@ from .PreperedFilesRecognitionService import PreperedFilesRecognition
 from .ClockInService import ClockIn
 from .DataBaseService import DataBase
 
+from Utils.Utils import done, error
+
 class Recognizer(PreperedFilesRecognition):
 
 	def __init__(self) -> None:
@@ -20,8 +22,8 @@ class Recognizer(PreperedFilesRecognition):
 		self.captured_face_encodings= []
 		self.captured_face_names 	= []
 		self.recognizeRegisteredFaces()
-		self.all_cloks = DataBase().selectAllClockInDay()
-		print(self.all_cloks)
+		# self.all_cloks = DataBase().selectAllClockInDay()
+		# print(self.all_cloks)
 
 
 	def recognizeRegisteredFaces(self) -> None:
@@ -32,9 +34,9 @@ class Recognizer(PreperedFilesRecognition):
 				encoding = face_recognition.face_encodings(presets)[0]
 				self.faces_encodings.append(encoding)
 				self.registred_faces_names.append(self.list_of_names[i])
-			except IndexError as erro:
+			except IndexError as Erro:
 
-				print("Verifique se há imagem cadastrada sem um rosto claramene exposto\n",erro)
+				error("Verifique se há imagem cadastrada sem um rosto claramene exposto",Erro)
 				sys.exit(1)
 
 
@@ -48,8 +50,8 @@ class Recognizer(PreperedFilesRecognition):
 			matches = face_recognition.compare_faces(
 				self.faces_encodings, face_encoding)
 			
-			if matches[0] and self.registred_faces_names:
-				ClockIn().clockInOfEmployee(self.registred_faces_names[0], self.all_cloks)
+			# if matches[0] and self.registred_faces_names:
+			# 	ClockIn().clockInOfEmployee(self.registred_faces_names[0], self.all_cloks)
 
 			name = "Desconhecido"
 			face_distances = face_recognition.face_distance(

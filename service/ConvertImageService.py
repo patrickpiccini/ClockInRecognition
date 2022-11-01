@@ -3,7 +3,7 @@ __author__  = 'Patrick Berlatto Piccini'
 __title__   = 'Registro de ponto e gravação de log'
 __exename__ = 'main'
 
-
+from Utils.Utils import done,error
 import base64
 
 class ConvertImage(object):
@@ -13,16 +13,26 @@ class ConvertImage(object):
 
 	def encodeImage(self, img: object=None) -> None:
 		"""Encode the image to base 64"""
-		with open(img, "rb") as image2string:
-			converted_string = base64.b64encode(image2string.read())
-			return (converted_string)
+		try:
+			with open(img, "rb") as image2string:
+				converted_string = base64.b64encode(image2string.read())
+				done('Encode realizado com sucesso')
+				return (converted_string)
+		except Exception as Error:
+			error('Erro ao encodificar para Base64',Error)
+			
 		
 
 	def decodeImage(self, base: object) -> None:
 		"""Decode the images from base 64"""
-		decodeit = open('hello_level.jpeg', 'wb')
-		decodeit.write(base64.b64decode((base)))
-		decodeit.close()
+		try:
+			decodeit = open('hello_level.jpeg', 'wb')
+			decodeit.write(base64.b64decode((base)))
+			decodeit.close()
+			done('Decode realizado com sucesso')
+		except Exception as Error:
+			error('Erro ao encodificar para Base64',Error)
+			
 
 # if __name__ == "__main__":
 # 	base = ConvertImage().encodeImage()

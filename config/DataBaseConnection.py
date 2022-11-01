@@ -2,7 +2,7 @@ import psycopg2
 import os
 
 HOST_DATABSE = "localhost"
-
+from Utils.Utils import debug,done,critical
 class ConnectionDatabase():
 
     def __init__(self):
@@ -16,14 +16,14 @@ class ConnectionDatabase():
             self.cursor = self.connection.cursor()
             # start tables
             self.create_tables()
-            print('[✓] Connected to Postgres')
-        except Exception as error:
-            print(f'[X] CONNECTING POSTGRES ERROR: {error}')
+            done('Connected to Postgres')
+        except Exception as Error:
+            critical(f'CONNECTING POSTGRES ERROR',Error)
     
     def create_tables(self):
         self.cursor.execute("SELECT version();")
         record = self.cursor.fetchone()
-        print("[✓] You are connected to - ", record)
+        done("You are connected to -", record)
 
         create_table_query = '''
             CREATE TABLE IF NOT EXISTS users (
@@ -50,4 +50,4 @@ class ConnectionDatabase():
         
         self.cursor.execute(create_table_query)
         self.connection.commit()
-        print('[✓] Created tables on DataBase')
+        done('Created tables on DataBase',time=True)

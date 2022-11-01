@@ -4,12 +4,13 @@ __title__   = 'title'
 __exename__ = 'main'
 
 from config.DataBaseConnection import ConnectionDatabase
-from service.ConvertImageService import ConvertImage
-from service.DataBaseService import DataBase
 from service.CameraService import OpenCamera
 from service.ClockInService import ClockIn
 
-ConnectionDatabase()
+from Utils.Utils import inputEmployeeData
+
+# ConnectionDatabase()
+
 while True:
 	print("""======================
 [1] - Cadastrar Face
@@ -21,18 +22,14 @@ while True:
 	match inp:
 
 		case 1:
-			OC = OpenCamera()
-			CI =  ClockIn()
-			COI = ConvertImage()
-			employee_info = CI.registerFace()
-			print(employee_info)
-			saved_image, employee_info[0] = OC.screenShot(employee_info[0], employee_info[1])
-			# encoded_image = COI.encodeImage(saved_image)
-
-			DataBase().inserUser(employee_info[0], employee_info[1] , employee_info[2], employee_info[3], employee_info[0])
+			opanCamera = OpenCamera()
+			clockIn = ClockIn()
+			employee_info = inputEmployeeData()
+			saved_image, employee_info[0] = opanCamera.screenShot(employee_info[0], employee_info[1])
+			clockIn.registerFace(employee_info)
 		case 2:
-			OC = OpenCamera()
-			OC.openRecognitionCamera()
+			opanCamera = OpenCamera()
+			opanCamera.openRecognitionCamera()
 		case 9:
 				break
 

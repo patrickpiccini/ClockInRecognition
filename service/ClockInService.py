@@ -5,6 +5,7 @@ __exename__ = 'main'
 
 import os
 
+from Utils.Utils import error
 from .DataBaseService import DataBase
 from .ConvertImageService import ConvertImage
 
@@ -25,44 +26,13 @@ class ClockIn(object):
 		"""
 		self.__pass_employee = password
 
-	def registerFace(self) -> None:
-		"""
-		Registre the new person face.\n
-		It is necessary input a ``Full Name``, ``Age`` and ``Password`` 
-		"""
-		CI = ConvertImage()
-		user_existe = False
-		while user_existe == False:
-			employee_name = input("Nome do colaborador: ").lower().replace(' ','_')
-			employee_age = int(input("Idade do colaborador: "))
-			employee_password = input("Senha do colaborador: ")
-			# password_again = input("Repita a Senha:  ")
-			# if password_again == password:
-
-			user_existe, employee_id = self.verifyUserExistence(employee_name)
-
-		return [employee_id , employee_name, employee_age, employee_password]
-		
-
-	def verifyUserExistence(self, name: str) -> bool:
-		"""
-		Check if the same employee name is registered.\n
-		Wait for the user to say if they want to update the employee's photo or rewrite the employee's data.
-		"""
-		for _, _, file in os.walk('.\\data\\faces\\'):
-			for name_in_file in file:
-				if name_in_file[:-10] == name:
-					print('='*30)
-					choice = input("Usuario com nome já cadastrado!\nDeseja atualizar [Y|N] ")
-
-					match choice.lower():
-						case "y":
-							return True, name_in_file[-9:-4]
-						case "n":
-							print("------Preencha os dados novamente------")
-							return False, False
-		return True, False
-
+	def registerFace(self, employee_info) -> None:
+		try:
+			convertImage = ConvertImage()
+			DataBase().inserUser(employee_info[0], employee_info[1] , employee_info[2], employee_info[3], employee_info[0])
+		except Exception as Error:
+			error('Erro ao tentar registrar nova face')
+			
 	def clockInOfEmployee(self, employee_name, all_clocks) -> None:
 		if employee_name:
 			print(all_clocks)
