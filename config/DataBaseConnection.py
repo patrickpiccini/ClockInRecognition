@@ -27,24 +27,24 @@ class ConnectionDatabase():
 
         create_table_query = '''
             CREATE TABLE IF NOT EXISTS users (
-                user_id SERIAL NOT NULL,
+                employee_id varchar(5) UNIQUE NOT NULL,
                 fullname varchar(50) UNIQUE NOT NULL,
                 password varchar(50) UNIQUE NOT NULL,
                 age integer NOT NULL,
                 photo text UNIQUE NOT NULL,
                 created_at TIMESTAMP,
                 updated_at TIMESTAMP,
-                PRIMARY KEY (user_id)
+                PRIMARY KEY (employee_id)
             );
             CREATE TABLE IF NOT EXISTS clockin (
-                clockin_id SERIAL NOT NULL,
-                user_id integer NOT NULL,
+                clockin_id SERIAL UNIQUE NOT NULL,
+                employee_id varchar(5) NOT NULL,
                 item_description varchar(256) NOT NULL,
-                fullname varchar(50) UNIQUE NOT NULL,
-                created_at TIMESTAMP,
-                updated_at TIMESTAMP,
+                fullname varchar(50) NOT NULL,
+                date TIMESTAMP,
+                hour TIMESTAMP,
                 PRIMARY KEY (clockin_id),
-                FOREIGN KEY(user_id) REFERENCES users(user_id)
+                FOREIGN KEY(employee_id) REFERENCES users(employee_id)
             );
             '''
         

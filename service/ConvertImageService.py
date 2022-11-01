@@ -12,12 +12,14 @@ class ConvertImage(object):
 		pass
 
 	def encodeImage(self, img: object=None) -> None:
+		"""Encode the image to base 64"""
 		with open(img, "rb") as image2string:
 			converted_string = base64.b64encode(image2string.read())
 			return (converted_string)
 		
 
 	def decodeImage(self, base: object) -> None:
+		"""Decode the images from base 64"""
 		decodeit = open('hello_level.jpeg', 'wb')
 		decodeit.write(base64.b64decode((base)))
 		decodeit.close()
