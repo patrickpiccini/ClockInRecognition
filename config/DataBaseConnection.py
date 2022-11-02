@@ -15,7 +15,6 @@ class ConnectionDatabase():
                 password="postgres")
             self.cursor = self.connection.cursor()
             # start tables
-            self.create_tables()
             done('Connected to Postgres')
         except Exception as Error:
             critical(f'CONNECTING POSTGRES ERROR',Error)

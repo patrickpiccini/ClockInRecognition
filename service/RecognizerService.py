@@ -22,7 +22,6 @@ class Recognizer(PreperedFilesRecognition):
 		self.captured_face_encodings= []
 		self.captured_face_names 	= []
 		self.recognizeRegisteredFaces()
-		# self.all_cloks = DataBase().selectAllClockInDay()
 		# print(self.all_cloks)
 
 
@@ -50,8 +49,8 @@ class Recognizer(PreperedFilesRecognition):
 			matches = face_recognition.compare_faces(
 				self.faces_encodings, face_encoding)
 			
-			# if matches[0] and self.registred_faces_names:
-			# 	ClockIn().clockInOfEmployee(self.registred_faces_names[0], self.all_cloks)
+			if matches[0] and self.registred_faces_names:
+				ClockIn().clockInOfEmployee(self.registred_faces_names[0])
 
 			name = "Desconhecido"
 			face_distances = face_recognition.face_distance(

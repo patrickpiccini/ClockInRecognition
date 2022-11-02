@@ -9,7 +9,7 @@ from service.ClockInService import ClockIn
 
 from Utils.Utils import inputEmployeeData
 
-# ConnectionDatabase()
+ConnectionDatabase().create_tables()
 
 while True:
 	print("""======================

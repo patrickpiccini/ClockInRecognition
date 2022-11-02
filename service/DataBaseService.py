@@ -50,16 +50,13 @@ class DataBase(ConnectionDatabase):
 	def selectAllClockInDay(self) -> None:
 		todays_date = getDate()
 		try:
-			print(todays_date)
-			query_select = f"SELECT employee_id, date, hour from clockin where date = '{todays_date}';"
+			query_select = f"SELECT employee_id, hour from clockin where date = '{todays_date}';"
 			self.cursor.execute(query_select) 
 			record = self.cursor.fetchall()
 			self.connection.commit()
-			print(record)
 
-			dict_all_users = []
 			done('SELECT DONE SUCCESSFULLY IN POSTGRES!')
-			return dict_all_users
+			return record
 		except Exception as error:
 			critical('ERROR SELECT IN POSTGRES!',error)
 		finally:
