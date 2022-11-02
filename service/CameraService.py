@@ -5,9 +5,8 @@ __exename__ = 'main'
 
 import cv2 as cv
 import numpy as np
-import os, random
 
-
+from Utils.Utils import userRandonId, debug
 from .RecognizerService import Recognizer
 
 
@@ -16,35 +15,50 @@ class OpenCamera():
 
 	def __init__(self) -> None:
 		self.camera = cv.VideoCapture(0, cv.CAP_DSHOW)
-		print("Capturando Camera...")
+		debug("Inicializando Camera...")
 		self.frame=None
 		self.small_frame=None
 		self.key=None
 
+
+	def readCamera(self) -> None:
+		"""Read the frames of camera and resize to small frame"""
+		self.frame = self.camera.read()[1]
+		self.small_frame = cv.resize(self.frame, (0,0), fx=0.25, fy=0.25)
+
+
+	def closeCamera(self) -> None:
+		"""Stop communication with camera's hardware end destroys all windows"""
+		debug("Finalizando Camera...")
+		self.camera.release()
+		cv.destroyAllWindows()
+
+
 	def openRecognitionCamera(self) -> None:
+		"""Recognizes faces with registered users"""
 		RE = Recognizer()
 		while True:
-			self.frame = self.camera.read()[1]
-			self.small_frame = cv.resize(self.frame, (0,0), fx=0.25, fy=0.25)
+			self.readCamera()
 
 			RE.recognizeFaces(self.small_frame)
 			self.drawFacesIdentificator(RE.captured_face_locations, RE.captured_face_names)
 			
-			cv.imshow("camera", self.frame)
+			cv.imshow("FaceRecognition", self.frame)
 			self.key = cv.waitKey(10)
 			if self.key == 27:
 				break
 
-		self.camera.release()
-		cv.destroyAllWindows()
+		self.closeCamera()
 
-	def screenShot(self,name: str, user_id: int = None) -> str:
-		if not user_id:
-			user_id = self.userRandonId()
+
+	def screenShot(self, user_id: int = None ,name: str = '') -> str:
+		"""Register new faces on system"""
+		if user_id == False:
+			user_id = userRandonId()
 
 		while True:
-			self.frame = self.camera.read()[1]
-			cv.imshow("camera", self.frame)
+			self.readCamera()
+			cv.imshow("Register Face", self.frame)
 			self.key = cv.waitKey(10)
 
 			if self.key == 27:
@@ -55,12 +69,12 @@ class OpenCamera():
 				cv.imwrite(saved_dir, self.frame)
 				break
 		
-		self.camera.release()
-		cv.destroyAllWindows()
-		return saved_dir
+		self.closeCamera()
+		return saved_dir, user_id
 		
 
 	def drawFacesIdentificator(self,face_locations: dict, face_names: dict) -> None:
+		"""Draw a rectangle and write the employee's name on the camera"""
 		for (top, right, bottom, left), name in zip(face_locations, face_names):
 			top = int(top*4)
 			right = int(right*4)
@@ -77,7 +91,3 @@ class OpenCamera():
 			font = cv.FONT_HERSHEY_DUPLEX
 			cv.putText(self.frame, name, (left + 6, bottom - 6),
 						font, 0.5, (255, 255, 255), 1)
-
-	def userRandonId(self) -> str :
-		number = random.randint(1,10000)
-		return str(f'{number:0>5}')

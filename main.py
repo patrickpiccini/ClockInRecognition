@@ -7,22 +7,29 @@ from config.DataBaseConnection import ConnectionDatabase
 from service.CameraService import OpenCamera
 from service.ClockInService import ClockIn
 
-# ConnectionDatabase()
+from Utils.Utils import inputEmployeeData
+
+ConnectionDatabase().create_tables()
+
 while True:
-    print("""======================
+	print("""======================
 [1] - Cadastrar Face
 [2] - Registrar Ponto
 [9] - Sair
 ======================""")
-    inp = input("Escolha uma opção: ")
+	inp = int(input("Escolha uma opção: "))
 
-    if inp == "1":
-        CI = ClockIn()
-        CI.registerFace()
-    elif inp =="2":
-        OC = OpenCamera()
-        OC.openRecognitionCamera()
+	match inp:
 
-    elif inp =="9":
-        break
+		case 1:
+			opanCamera = OpenCamera()
+			clockIn = ClockIn()
+			employee_info = inputEmployeeData()
+			saved_image, employee_info[0] = opanCamera.screenShot(employee_info[0], employee_info[1])
+			clockIn.registerFace(employee_info)
+		case 2:
+			opanCamera = OpenCamera()
+			opanCamera.openRecognitionCamera()
+		case 9:
+				break
 

@@ -7,6 +7,10 @@ import face_recognition, sys
 import numpy as np
 
 from .PreperedFilesRecognitionService import PreperedFilesRecognition
+from .ClockInService import ClockIn
+from .DataBaseService import DataBase
+
+from Utils.Utils import done, error
 
 class Recognizer(PreperedFilesRecognition):
 
@@ -18,20 +22,21 @@ class Recognizer(PreperedFilesRecognition):
 		self.captured_face_encodings= []
 		self.captured_face_names 	= []
 		self.recognizeRegisteredFaces()
+		# print(self.all_cloks)
 
 
 	def recognizeRegisteredFaces(self) -> None:
+		"""Identifies faces contained in the Faces directory, and load in "registred_faces_names" var """
 		for i in range(len(self.list_of_file)):
 			try: 
 				presets = face_recognition.load_image_file(self.list_of_file[i])
 				encoding = face_recognition.face_encodings(presets)[0]
 				self.faces_encodings.append(encoding)
 				self.registred_faces_names.append(self.list_of_names[i])
-			except IndexError as erro:
+			except IndexError as Erro:
 
-				print("Verifique se há imagem cadastrada sem um rosto claramene exposto\n",erro)
+				error("Verifique se há imagem cadastrada sem um rosto claramene exposto",Erro)
 				sys.exit(1)
-
 
 
 	def recognizeFaces(self, small_frame: object) -> None:
@@ -44,11 +49,12 @@ class Recognizer(PreperedFilesRecognition):
 			matches = face_recognition.compare_faces(
 				self.faces_encodings, face_encoding)
 			
-			## marca ponto aqui
+			if matches[0] and self.registred_faces_names:
+				ClockIn().clockInOfEmployee(self.registred_faces_names[0])
 
 			name = "Desconhecido"
 			face_distances = face_recognition.face_distance(
-                self.faces_encodings, face_encoding)
+				self.faces_encodings, face_encoding)
 			best_match_index = np.argmin(face_distances)
 			# print("faces distances", face_distances)
 
@@ -56,4 +62,4 @@ class Recognizer(PreperedFilesRecognition):
 				name = self.registred_faces_names[best_match_index]
 
 			self.captured_face_names.append(name)
-			print(self.captured_face_names)
+
