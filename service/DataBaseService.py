@@ -5,6 +5,7 @@ __exename__ = 'main'
 
 from Utils.Utils import getDateTime, getDate, done, critical
 import cv2 as cv
+import psycopg2
 
 from config.DataBaseConnection import ConnectionDatabase
 
@@ -14,11 +15,11 @@ class DataBase(ConnectionDatabase):
 		super().__init__()
 
 
-	def inserUser(self, employee_id: str ,name: str, age: int, password: str, img) -> None:
+	def inserUser(self, employee_id: str ,name: str, age: int, password: str, img=None) -> None:
 		try:
 			date= getDateTime()
-			query_insert = 'INSERT INTO users (employee_id, fullname, password, age, photo, created_at, updated_at)VALUES (%s,%s,%s,%s,%s,%s,%s)' 
-			vars_query = (employee_id,name,password,int(age),img, date, date)
+			query_insert = 'INSERT INTO users (employee_id, fullname, password, age, created_at, updated_at)VALUES (%s,%s,%s,%s,%s,%s,%s)' 
+			vars_query = (employee_id,name,password,int(age), date, date)
 			self.cursor.execute(query_insert, vars_query)
 			self.connection.commit()
 
@@ -50,7 +51,7 @@ class DataBase(ConnectionDatabase):
 	def selectAllClockInDay(self) -> None:
 		todays_date = getDate()
 		try:
-			query_select = f"SELECT employee_id, hour from clockin where date = '{todays_date}';"
+			query_select = f"SELECT employee_id, hour from clockin where date = '{todays_date}' ORDER BY date DESC;"
 			self.cursor.execute(query_select) 
 			record = self.cursor.fetchall()
 			self.connection.commit()
@@ -63,7 +64,7 @@ class DataBase(ConnectionDatabase):
 			self.cursor.close()
 
 
-	def insertClockInEmployee(self,employee_id,desc,name) -> None:
+	def insertClockInEmployee(self,employee_id: str,desc: str,name: str) -> None:
 		try:
 			date = getDate()
 			hour = getDateTime()

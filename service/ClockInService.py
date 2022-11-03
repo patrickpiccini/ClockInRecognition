@@ -7,14 +7,15 @@ import os
 
 from datetime import timedelta, datetime
 
-from Utils.Utils import error,getDateTime
+from Utils.Utils import debug, error, info
 from .DataBaseService import DataBase
 from .ConvertImageService import ConvertImage
 
 class ClockIn(object):
 
 	def __init__(self) -> None:
-		pass
+		self.has_all_cloks = False
+		self.all_clocks = []
 
 	def getPassEmployee(self) -> str:
 		"""
@@ -28,33 +29,40 @@ class ClockIn(object):
 		"""
 		self.__pass_employee = password
 
-	def registerFace(self, employee_info) -> None:
+
+	def registerFace(self, employee_info: list, saved_image: str) -> None:
 		try:
-			convertImage = ConvertImage()
-			DataBase().inserUser(employee_info[0], employee_info[1] , employee_info[2], employee_info[3], employee_info[0])
+			# convertImage = ConvertImage()
+			DataBase().inserUser(employee_info[0], employee_info[1] , employee_info[2], employee_info[3])
 		except Exception as Error:
 			error('Erro ao tentar registrar nova face')
+
 			
-	def clockInOfEmployee(self, employee_name) -> None:
+	def clockInOfEmployee(self, employee_name: str) -> None:
 		description = 'Registro de Ponto'
-		employe_id=[]
-		has_all_cloks = False
-		while has_all_cloks == False:
-			all_clocks = DataBase().selectAllClockInDay()
-			has_all_cloks = True
-			print('--------aqui-------')
-
-		for id in all_clocks:
-			employe_id.append(id[0])
-			print(employe_id)
-
-
-		for registred_informations in all_clocks:
-			if employee_name[-5:] in employe_id:
-				time_now = getDateTime()
-				if registred_informations[1] + timedelta(minutes=30) < datetime.now(): 
+		while self.has_all_cloks == False:
+			self.all_clocks = DataBase().selectAllClockInDay()
+			self.has_all_cloks = True
+		
+		if not self.all_clocks:
+			DataBase().insertClockInEmployee(employee_name[-5:], description, employee_name[:-6])
+			self.all_clocks = DataBase().selectAllClockInDay()
+			info("Ponto registrado com sucesso", time=True)
+			return True
+			
+		len_all_clocks = len(self.all_clocks)
+		for index in range(len_all_clocks,-1,-1):
+			if employee_name[-5:] == self.all_clocks[index-1][0]:
+				if self.all_clocks[index-1][1] + timedelta(minutes=30) < datetime.now(): 
 					DataBase().insertClockInEmployee(employee_name[-5:], description, employee_name[:-6])
-					all_clocks = DataBase().selectAllClockInDay()
-			else:
-				DataBase().insertClockInEmployee(employee_name[-5:], description, employee_name[:-6])
-				all_clocks = DataBase().selectAllClockInDay()
+					self.all_clocks = DataBase().selectAllClockInDay()
+					info("Ponto registrado com sucesso", time=True)
+					return True
+				return False
+		
+		
+
+		DataBase().insertClockInEmployee(employee_name[-5:], description, employee_name[:-6])
+		self.all_clocks = DataBase().selectAllClockInDay()
+		info("Ponto registrado com sucesso", time=True)
+		return True

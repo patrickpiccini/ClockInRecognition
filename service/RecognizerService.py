@@ -22,6 +22,7 @@ class Recognizer(PreperedFilesRecognition):
 		self.captured_face_encodings= []
 		self.captured_face_names 	= []
 		self.recognizeRegisteredFaces()
+		self.clockIn = ClockIn()
 		# print(self.all_cloks)
 
 
@@ -39,7 +40,8 @@ class Recognizer(PreperedFilesRecognition):
 				sys.exit(1)
 
 
-	def recognizeFaces(self, small_frame: object) -> None:
+	def recognizeFaces(self, small_frame: object) -> bool:
+		registred_clock=False
 		self.captured_face_locations = face_recognition.face_locations(small_frame)
 		self.captured_face_encodings = face_recognition.face_encodings(
 			small_frame, self.captured_face_locations)
@@ -48,9 +50,6 @@ class Recognizer(PreperedFilesRecognition):
 		for face_encoding in self.captured_face_encodings:
 			matches = face_recognition.compare_faces(
 				self.faces_encodings, face_encoding)
-			
-			if matches[0] and self.registred_faces_names:
-				ClockIn().clockInOfEmployee(self.registred_faces_names[0])
 
 			name = "Desconhecido"
 			face_distances = face_recognition.face_distance(
@@ -60,6 +59,10 @@ class Recognizer(PreperedFilesRecognition):
 
 			if matches[best_match_index]:
 				name = self.registred_faces_names[best_match_index]
+				registred_clock = self.clockIn.clockInOfEmployee(name)
 
 			self.captured_face_names.append(name)
+
+		return registred_clock
+
 

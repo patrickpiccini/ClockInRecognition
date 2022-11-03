@@ -17,16 +17,16 @@ while True:
 [2] - Registrar Ponto
 [9] - Sair
 ======================""")
-	inp = int(input("Escolha uma opção: "))
+	key = int(input("Escolha uma opção: "))
 
-	match inp:
+	match key:
 
 		case 1:
 			opanCamera = OpenCamera()
 			clockIn = ClockIn()
 			employee_info = inputEmployeeData()
 			saved_image, employee_info[0] = opanCamera.screenShot(employee_info[0], employee_info[1])
-			clockIn.registerFace(employee_info)
+			clockIn.registerFace(employee_info, saved_image)
 		case 2:
 			opanCamera = OpenCamera()
 			opanCamera.openRecognitionCamera()
