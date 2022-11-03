@@ -6,7 +6,7 @@ __exename__ = 'main'
 import cv2 as cv
 import numpy as np
 
-from Utils.Utils import userRandonId, debug
+from Utils.Utils import userRandonId, debug, info
 from .RecognizerService import Recognizer
 
 
@@ -37,17 +37,19 @@ class OpenCamera():
 	def openRecognitionCamera(self) -> None:
 		"""Recognizes faces with registered users"""
 		RE = Recognizer()
+		registred_clock = False
+		# while registred_clock == False:
 		while True:
 			self.readCamera()
 
-			RE.recognizeFaces(self.small_frame)
+			registred_clock = RE.recognizeFaces(self.small_frame)
 			self.drawFacesIdentificator(RE.captured_face_locations, RE.captured_face_names)
 			
 			cv.imshow("FaceRecognition", self.frame)
 			self.key = cv.waitKey(10)
 			if self.key == 27:
 				break
-
+		
 		self.closeCamera()
 
 

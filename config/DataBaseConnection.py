@@ -30,7 +30,7 @@ class ConnectionDatabase():
                 fullname varchar(50) UNIQUE NOT NULL,
                 password varchar(50) UNIQUE NOT NULL,
                 age integer NOT NULL,
-                photo text UNIQUE NOT NULL,
+                photo text UNIQUE,
                 created_at TIMESTAMP,
                 updated_at TIMESTAMP,
                 PRIMARY KEY (employee_id)
