@@ -17,17 +17,39 @@ class DataBase(ConnectionDatabase):
 
 	def inserUser(self, employee_id: str ,name: str, age: int, password: str, img=None) -> None:
 		try:
+			has_user = self.getUser(employee_id)
 			date= getDateTime()
-			query_insert = 'INSERT INTO users (employee_id, fullname, password, age, created_at, updated_at)VALUES (%s,%s,%s,%s,%s,%s,%s)' 
-			vars_query = (employee_id,name,password,int(age), date, date)
-			self.cursor.execute(query_insert, vars_query)
-			self.connection.commit()
+
+			if has_user:
+				query_insert = 'UPDATE users SET employee_id=%s, fullname=%s, password=%s, age=%s, created_at=%s, updated_at=%s WHERE employee_id=%s' 
+				vars_query = (employee_id,name,password,int(age), date, date,employee_id)
+				self.cursor.execute(query_insert, vars_query)
+				self.connection.commit()
+
+			else:
+				query_insert = 'INSERT INTO users (employee_id, fullname, password, age, created_at, updated_at)VALUES (%s,%s,%s,%s,%s,%s)' 
+				vars_query = (employee_id,name,password,int(age), date, date)
+				self.cursor.execute(query_insert, vars_query)
+				self.connection.commit()
 
 			done('INSERTION DONE IN POSTGRES!')
 		except Exception as error:
 			critical('ERROR INSERTING IN POSTGRES!',error)
 		finally:
 			self.cursor.close()
+
+	def getUser(self, employee_id) -> None:
+		try:
+			query_select = "SELECT employee_id from users where employee_id=%s;"
+			vars_query= (employee_id,)
+			self.cursor.execute(query_select, vars_query) 
+			user = self.cursor.fetchone()
+			self.connection.commit()
+
+			done('SELECT DONE SUCCESSFULLY IN POSTGRES!')
+			return user
+		except Exception as error:
+			critical('ERROR SELECT IN POSTGRES! ',error)
 
 
 	def getAllUsers(self) -> None:

@@ -19,7 +19,6 @@ class PreperedFilesRecognition(object):
 		self.list_of_names	= []
 		
 		self.createRecognizedFacesDir()
-		self.createFaceClockInDir()
 		
 
 	def createRecognizedFacesDir(self) -> None:
@@ -29,12 +28,7 @@ class PreperedFilesRecognition(object):
 
 		self.loadListOfFiles()
 	
-	def createFaceClockInDir(self) -> None:
-		"""Verify and create clockin dir if not exists"""
-		if not os.path.exists(self.face_clock_in):
-			os.mkdir(self.current_dir + "\\data\\clockin\\")
-
-
+	
 	def loadListOfFiles(self) -> None:
 		"""Load the list os files on face dir"""
 		for ext in EXTENSION_FILES:
