@@ -2,8 +2,8 @@
 __author__  = 'Patrick Berlatto Piccini'
 __title__   = 'Controlador de filtro de cores'
 __exename__ = 'main'
+
 import cv2 as cv
-import numpy as np
 
 class ConvertColor():
 
