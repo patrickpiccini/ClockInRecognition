@@ -1,7 +1,7 @@
 ### Informações
 Repositório criado para a Atividade Avaliativa - Projeto Computer Vision Full.  
 Disciplina: Computação Gráfica  
-Professor: Marcos Roberto dos Santos
+Professor: Marcos Roberto dos Santos  
 Alunos: Eduardo Bido e Patrick Piccini
 
 ### Projeto
