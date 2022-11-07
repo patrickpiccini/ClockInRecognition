@@ -3,8 +3,6 @@ __author__  = 'Patrick Berlatto Piccini'
 __title__   = 'Montagen de dados para reconhecimento'
 __exename__ = 'main'
 
-import cv2
-import numpy as np
 import glob, os
 
 EXTENSION_FILES = ["png", "jpeg", "jpg"]

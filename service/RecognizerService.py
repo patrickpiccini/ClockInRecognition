@@ -8,8 +8,6 @@ import numpy as np
 
 from .PreperedFilesRecognitionService import PreperedFilesRecognition
 from .ClockInService import ClockIn
-from .DataBaseService import DataBase
-
 from Utils.Utils import done, error
 
 class Recognizer(PreperedFilesRecognition):

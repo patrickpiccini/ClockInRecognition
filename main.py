@@ -12,9 +12,12 @@ from Utils.Utils import inputEmployeeData
 ConnectionDatabase().create_tables()
 
 while True:
-	print("""======================
+	print("""=== Bem Vindo ao SnapFace ===
+Sistema de gerenciamento de Funcionários em Obras\n
+======================
 [1] - Cadastrar Face
 [2] - Registrar Ponto
+[3] - Reconhecimento de Capacete
 [9] - Sair
 ======================""")
 	key = int(input("Escolha uma opção: "))
@@ -30,6 +33,9 @@ while True:
 		case 2:
 			opanCamera = OpenCamera()
 			opanCamera.openRecognitionCamera()
+		case 3:
+			opanCamera = OpenCamera()
+			opanCamera.helmetHaarCascade()
 		case 9:
 				break
 

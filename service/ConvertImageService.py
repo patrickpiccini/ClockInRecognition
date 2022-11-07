@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 __author__  = 'Patrick Berlatto Piccini'
-__title__   = 'Registro de ponto e gravação de log'
+__title__   = 'Converte imagens para base64'
 __exename__ = 'main'
 
 from Utils.Utils import done,error

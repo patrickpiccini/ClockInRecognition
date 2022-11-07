@@ -4,9 +4,6 @@ __title__   = 'Interações com Banco de Dados'
 __exename__ = 'main'
 
 from Utils.Utils import getDateTime, getDate, done, critical
-import cv2 as cv
-import psycopg2
-
 from config.DataBaseConnection import ConnectionDatabase
 
 class DataBase(ConnectionDatabase):
@@ -15,7 +12,7 @@ class DataBase(ConnectionDatabase):
 		super().__init__()
 
 
-	def inserUser(self, employee_id: str ,name: str, age: int, password: str, img=None) -> None:
+	def insertUser(self, employee_id: str ,name: str, age: int, password: str, img=None) -> None:
 		try:
 			has_user = self.getUser(employee_id)
 			date= getDateTime()
