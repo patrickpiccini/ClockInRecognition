@@ -50,16 +50,17 @@ def verifyUserExistence(name: str) -> bool:
 	Check if the same employee name is registered.\n
 	Wait for the user to say if they want to update the employee's photo or rewrite the employee's data.
 	"""
-	for _, _, file in os.walk('.\\data\\faces\\'):
+	for _, _, file in os.walk('.\\faces\\'):
 		for name_in_file in file:
 			if name_in_file[:-10] == name:
 				print('='*30)
-				info("Usuario com nome j� cadastrado!")
+				info("Usuario com nome já cadastrado!")
 				choice = input("Deseja atualizar [Y|N] ")
 
 				match choice.lower():
 					case "y":
-						info('Abrindo Camera\nPressione "S" para capturara foto')
+						debug('Abrindo Camera')
+						info('Pressione "S" para capturara foto')
 						return True, name_in_file[-9:-4]
 					case "n":
 						info("------Preencha os dados novamente------")

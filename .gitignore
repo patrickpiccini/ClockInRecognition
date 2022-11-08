@@ -8,11 +8,10 @@ __pycache__/
 
 # Distribution / packaging
 ENVIRONMENT/
-models/negative
-models/positives
-models/helmetImages
-models/images
-data/faces
+data/negative
+data/positives
+data/dataset
+faces/
 .vscode
 .Python
 build/
