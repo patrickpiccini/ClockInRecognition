@@ -12,7 +12,7 @@ data/negative
 data/positives
 data/dataset
 faces/
-.vscode
+.vscode/
 .Python
 build/
 develop-eggs/
