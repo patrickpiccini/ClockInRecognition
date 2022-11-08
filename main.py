@@ -3,11 +3,11 @@ __author__  = 'Patrick Berlatto Piccini'
 __title__   = 'title'
 __exename__ = 'main'
 
-from config.DataBaseConnection import ConnectionDatabase
-from service.CameraService import OpenCamera
-from service.ClockInService import ClockIn
+from src.DataBase.DataBaseConnection import ConnectionDatabase
+from src.Camera.CameraService import OpenCamera
+from src.RegisterPoint.ClockInService import ClockIn
 
-from Utils.Utils import inputEmployeeData
+from utils.Utils import inputEmployeeData
 
 ConnectionDatabase().create_tables()
 
