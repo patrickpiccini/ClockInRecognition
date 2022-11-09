@@ -39,6 +39,7 @@ def detect_and_predict_helmet(frame, faceNet, helmetNet):
 		# filter out weak detections by ensuring the confidence is
 		# greater than the minimum confidence
 		if confidence > args["confidence"]:
+			print('--------------------------oioioi', args["confidence"])
 			# compute the (x, y)-coordinates of the bounding box for
 			# the object
 			box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
@@ -96,6 +97,7 @@ faceNet = cv2.dnn.readNet(prototxtPath, weightsPath)
 # load the face helmet detector model from disk
 print("[INFO] loading face helmet detector model...")
 helmetNet = load_model(args["model"])
+print('-----------------aquii',args["model"])
 
 # initialize the video stream and allow the camera sensor to warm up
 print("[INFO] starting video stream...")

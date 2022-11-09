@@ -5,7 +5,8 @@ __exename__ = 'main'
 
 from ..HaarCascade.HelmCascadeService import HelmetCascade
 from ..Recognition.RecognizerService import Recognizer
-from utils.Utils import userRandonId, debug
+
+from utils.Utils import userRandonId, debug, info
 import cv2 as cv
 
 
@@ -13,12 +14,25 @@ import cv2 as cv
 class OpenCamera():
 
     def __init__(self) -> None:
-        self.camera = cv.VideoCapture(0, cv.CAP_DSHOW)
-        debug("Inicializando Camera...")
         self.frame = None
         self.value_frame = None
         self.small_frame = None
         self.key = None
+
+    def openCamera(self) -> None:
+        """Open communication with camera's hardware"""
+
+        debug("Inicializando Camera...")
+        self.camera = cv.VideoCapture(0, cv.CAP_DSHOW)
+
+
+    def closeCamera(self) -> None:
+        """Stop communication with camera's hardware end destroys all windows"""
+
+        debug("Finalizando Camera...")
+        self.camera.release()
+        cv.destroyAllWindows()
+
 
     def readCamera(self) -> None:
         """Read the frames of camera, values and resize to small frame"""
@@ -27,12 +41,6 @@ class OpenCamera():
         self.value_frame = self.camera.read()[0]
         self.small_frame = cv.resize(self.frame, (0, 0), fx=0.25, fy=0.25)
 
-    def closeCamera(self) -> None:
-        """Stop communication with camera's hardware end destroys all windows"""
-
-        debug("Finalizando Camera...")
-        self.camera.release()
-        cv.destroyAllWindows()
 
     def openRecognitionCamera(self) -> None:
         """Recognizes faces with registered users"""
@@ -54,22 +62,6 @@ class OpenCamera():
 
         self.closeCamera()
 
-    def helmetHaarCascade(self) -> None:
-        """Open camera to identify helmet"""
-
-        HC = HelmetCascade()
-        while True:
-            self.readCamera()
-
-            if self.value_frame:
-                HC.cascade(self.frame)
-
-            cv.imshow("FaceRecognition", self.frame)
-            self.key = cv.waitKey(10)
-            if self.key == 27:
-                break
-
-        self.closeCamera()
 
     def screenShot(self, user_id: int = None, name: str = '') -> str:
         """Register new faces on system"""
@@ -92,6 +84,25 @@ class OpenCamera():
 
         self.closeCamera()
         return saved_dir, user_id
+
+
+    def helmetHaarCascade(self) -> None:
+        """Open camera to identify helmet"""
+
+        HC = HelmetCascade()
+        while True:
+            self.readCamera()
+
+            if self.value_frame:
+                HC.cascade(self.frame)
+
+            cv.imshow("FaceRecognition", self.frame)
+            self.key = cv.waitKey(10)
+            if self.key == 27:
+                break
+
+        self.closeCamera()
+
 
     def drawFacesIdentificator(self, face_locations: dict, face_names: dict) -> None:
         """Draw a rectangle and write the employee's name on the camera"""

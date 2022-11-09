@@ -74,7 +74,7 @@ def done(text,error='',time='')-> str:
 		error = '\n',error
 	print(f'\033[1m\033[32m[√] SUCESSO:\033[0;0m{time} {text}{error}')
 
-def waning(text,error='',time='') -> str:
+def warning(text,error='',time='') -> str:
 	if time:
 		time = getDateTime()
 	print(f'\033[1m\033[33m[!] WARNIN:\033[0;0m{time} {text}{error}')
