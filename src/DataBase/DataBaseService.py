@@ -56,7 +56,7 @@ class DataBase(ConnectionDatabase):
 			self.cursor.execute(query_select) 
 			record = self.cursor.fetchall()
 			self.connection.commit()
-			print(record)
+
 
 			dict_all_users = []
 			done('SELECT DONE SUCCESSFULLY IN POSTGRES!')

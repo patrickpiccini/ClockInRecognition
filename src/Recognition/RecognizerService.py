@@ -21,7 +21,7 @@ class Recognizer(PreperedFilesRecognition):
 		self.captured_face_names 	= []
 		self.recognizeRegisteredFaces()
 		self.clockIn = ClockIn()
-		# print(self.all_cloks)
+
 
 
 	def recognizeRegisteredFaces(self) -> None:
@@ -53,7 +53,7 @@ class Recognizer(PreperedFilesRecognition):
 			face_distances = face_recognition.face_distance(
 				self.faces_encodings, face_encoding)
 			best_match_index = np.argmin(face_distances)
-			# print("faces distances", face_distances)
+
 
 			if matches[best_match_index]:
 				name = self.registred_faces_names[best_match_index]

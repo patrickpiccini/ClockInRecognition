@@ -4,8 +4,9 @@ __title__   = 'title'
 __exename__ = 'main'
 
 from src.DataBase.DataBaseConnection import ConnectionDatabase
-from src.Camera.CameraService import OpenCamera
 from src.RegisterPoint.ClockInService import ClockIn
+from src.Camera.StreamService import OpenStream
+from src.Camera.CameraService import OpenCamera
 
 from utils.Utils import inputEmployeeData
 
@@ -17,7 +18,8 @@ Sistema de gerenciamento de Funcionários em Obras\n
 ======================
 [1] - Cadastrar Face
 [2] - Registrar Ponto
-[3] - Reconhecimento de Capacete
+[3] - Reconhecimento de Capacete HC
+[4] - Reconhecimento de Capacete TF
 [9] - Sair
 ======================""")
 	key = int(input("Escolha uma opção: "))
@@ -25,17 +27,24 @@ Sistema de gerenciamento de Funcionários em Obras\n
 	match key:
 
 		case 1:
-			opanCamera = OpenCamera()
+			openCamera = OpenCamera()
+			openCamera.openCamera()
 			clockIn = ClockIn()
 			employee_info = inputEmployeeData()
-			saved_image, employee_info[0] = opanCamera.screenShot(employee_info[0], employee_info[1])
+			saved_image, employee_info[0] = openCamera.screenShot(employee_info[0], employee_info[1])
 			clockIn.registerFace(employee_info, saved_image)
 		case 2:
-			opanCamera = OpenCamera()
-			opanCamera.openRecognitionCamera()
+			openCamera = OpenCamera()
+			openCamera.openCamera()
+			openCamera.openRecognitionCamera()
 		case 3:
-			opanCamera = OpenCamera()
-			opanCamera.helmetHaarCascade()
+			openCamera = OpenCamera()
+			openCamera.openCamera()
+			openCamera.helmetHaarCascade()
+		case 4:
+			openStream = OpenStream()
+			openStream.openVideoStream()
+			openStream.helmetTensorFLow()
 		case 9:
 				break
 

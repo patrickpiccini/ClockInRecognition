@@ -14,7 +14,7 @@ class ConnectionDatabase():
         try:
             self.connection  = psycopg2.connect(
                 host=HOST_DATABSE,
-                port=7000,
+                port=6969,
                 database="baseapplication",
                 user="postgres",
                 password="postgres")
