@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*- 
 __author__  = 'Patrick Berlatto Piccini'
-__title__   = 'Montagen de dados para reconhecimento'
+__title__   = 'Montagen de dados para reconhecimento facial'
 __exename__ = 'main'
 
 import glob, os

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 __author__ = 'Patrick Berlatto Piccini'
-__title__ = 'Abertura de camera Geral'
+__title__ = 'Abertura de camera usando VideoStream'
 __exename__ = 'main'
 
 from ..TensorFlow.DetectHelmet import DetectHelmetTensoFLow
@@ -31,16 +31,20 @@ class OpenStream():
 
 
     def readVideoStrem(self) -> None:
-       self.stream_frame = self.video_stream.read()
+        """Read the camera's frame"""
+        
+        self.stream_frame = self.video_stream.read()
 
 
     def helmetTensorFLow(self) -> None:
+        """Call the Tensor Flow technique"""
+
         DHTF = DetectHelmetTensoFLow()
         while True:
             self.readVideoStrem()
-            DHTF.renderizeVideoStream(self.stream_frame)
+            DHTF.callThePredictHelmet(self.stream_frame)
             # show the output frame
-            cv2.imshow("Frame", self.stream_frame)
+            cv2.imshow("Stream Frame", self.stream_frame)
             key = cv2.waitKey(1) & 0xFF
 
             # if the `esc` key was pressed, break from the loop

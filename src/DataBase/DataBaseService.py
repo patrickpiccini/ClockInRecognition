@@ -13,6 +13,8 @@ class DataBase(ConnectionDatabase):
 
 
 	def insertUser(self, employee_id: str ,name: str, age: int, password: str, img=None) -> None:
+		"""Insert the info of parameter to user table"""
+
 		try:
 			has_user = self.getUser(employee_id)
 			date= getDateTime()
@@ -36,6 +38,8 @@ class DataBase(ConnectionDatabase):
 			self.cursor.close()
 
 	def getUser(self, employee_id) -> None:
+		"""Get the employee_id from table users"""
+
 		try:
 			query_select = "SELECT employee_id from users where employee_id=%s;"
 			vars_query= (employee_id,)
@@ -49,25 +53,9 @@ class DataBase(ConnectionDatabase):
 			critical('ERROR SELECT IN POSTGRES! ',error)
 
 
-	def getAllUsers(self) -> None:
-		try:
-
-			query_select = 'SELECT fullname, photo from users;'
-			self.cursor.execute(query_select) 
-			record = self.cursor.fetchall()
-			self.connection.commit()
-
-
-			dict_all_users = []
-			done('SELECT DONE SUCCESSFULLY IN POSTGRES!')
-			return dict_all_users
-		except Exception as error:
-			critical('ERROR INSERTING IN POSTGRES!',error)
-		finally:
-			self.cursor.close()
-
-
 	def selectAllClockInDay(self) -> None:
+		""" Select day information from clockin table """
+
 		todays_date = getDate()
 		try:
 			query_select = f"SELECT employee_id, hour from clockin where date = '{todays_date}' ORDER BY date DESC;"
@@ -84,6 +72,8 @@ class DataBase(ConnectionDatabase):
 
 
 	def insertClockInEmployee(self,employee_id: str,desc: str,name: str) -> None:
+		"""Insert information about user, to register point"""
+
 		try:
 			date = getDate()
 			hour = getDateTime()

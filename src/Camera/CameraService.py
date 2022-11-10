@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 __author__ = 'Patrick Berlatto Piccini'
-__title__ = 'Abertura de camera Geral'
+__title__ = 'Abertura de camera usando OpenCV'
 __exename__ = 'main'
 
 from ..HaarCascade.HelmCascadeService import HelmetCascade
 from ..Recognition.RecognizerService import Recognizer
+from ..Camera.ConvertColorService import ConvertColor
 
 from utils.Utils import userRandonId, debug, info
 import cv2 as cv
@@ -95,7 +96,7 @@ class OpenCamera():
 
             if self.value_frame:
                 HC.cascade(self.frame)
-
+            
             cv.imshow("FaceRecognition", self.frame)
             self.key = cv.waitKey(10)
             if self.key == 27:
