@@ -25,6 +25,8 @@ class ConnectionDatabase():
             critical(f'CONNECTING POSTGRES ERROR',Error)
     
     def create_tables(self):
+        """Create if not exist tables on DataBase"""
+
         try:
             self.cursor.execute("SELECT version();")
             record = self.cursor.fetchone()

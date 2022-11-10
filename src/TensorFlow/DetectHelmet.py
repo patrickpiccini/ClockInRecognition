@@ -1,5 +1,9 @@
-# USAGE
-# python detect_helmet_video.py
+# -*- coding: utf-8 -*-
+__author__  = 'Patrick Berlatto Piccini'
+__title__   = 'Identificação de Capacete usando TensorFlow'
+__exename__ = 'main'
+
+
 
 # import the necessary packages
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
@@ -28,7 +32,9 @@ class DetectHelmetTensoFLow():
 			info("loading face helmet detector model...")
 			self.helmetNet = load_model("src\TensorFlow\data\helmet_detector.model")
 
-	def detect_and_predict_helmet(self, frame):
+	def detectAndPredictHelmet(self, frame):
+		"""Compute the prediction to find the helmet"""
+
 		# grab the dimensions of the frame and then construct a blob
 		# from it
 		(h, w) = frame.shape[:2]
@@ -83,24 +89,29 @@ class DetectHelmetTensoFLow():
 			# for faster inference we'll make batch predictions on *all*
 			# faces at the same time rather than one-by-one predictions
 			# in the above `for` loop
-			preds = self.helmetNet.predict(faces)
+			preds = self.helmetNet.predict(faces[0])
 
 		# return a 2-tuple of the face locations and their corresponding
 		# locations
 		return (locs, preds)
 
-	def renderizeVideoStream(self, frame) -> None:
+	def callThePredictHelmet(self, frame: object) -> None:
+		"""Call the method to do detetion and prediction helmet"""
 
-		(locs, preds) = self.detect_and_predict_helmet(frame)
+		(locs, preds) = self.detectAndPredictHelmet(frame)
 		debug(locs, preds)
 
 		for (box, pred) in zip(locs, preds):
 
 			(startX, startY, endX, endY) = box
 			(helmet, withoutHelmet) = pred
+			print(helmet,withoutHelmet)
 
 			label = "Helmet" if helmet > withoutHelmet else "No Helmet"
 			color = (0, 255, 0) if label == "Helmet" else (0, 0, 255)
+
+			### Verify percentege without helmet
+			# if ......
 
 			label = "{}: {:.2f}%".format(label, max(helmet, withoutHelmet) * 100)
 
