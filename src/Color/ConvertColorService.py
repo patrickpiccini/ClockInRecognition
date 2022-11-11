@@ -4,11 +4,12 @@ __title__   = 'Controlador de filtro de cores'
 __exename__ = 'main'
 
 import cv2 as cv
+import numpy as np
 
 class ConvertColor():
 
-	def __init__(self, frame: object) -> None:
-		self.frame = frame        
+	def __init__(self, frame: object = None) -> None:
+		self.frame = frame     
 
 	def convert_to_gray(self) -> object:
 		"""Corver the frames to GARY scale"""
