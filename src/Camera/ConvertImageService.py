@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 __author__  = 'Patrick Berlatto Piccini'
-__title__   = 'Converte imagens para base64'
+__title__   = 'Converte imagens para base64 OBSOLET**'
 __exename__ = 'main'
 
 from utils.Utils import done,error

@@ -5,9 +5,8 @@ __exename__ = 'main'
 
 from ..HaarCascade.HelmCascadeService import HelmetCascade
 from ..Recognition.RecognizerService import Recognizer
-from ..Camera.ConvertColorService import ConvertColor
 
-from utils.Utils import userRandonId, debug, info
+from utils.Utils import userRandonId, debug
 import cv2 as cv
 
 

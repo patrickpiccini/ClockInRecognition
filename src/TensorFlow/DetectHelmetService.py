@@ -9,7 +9,8 @@ __exename__ = 'main'
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.models import load_model
-from utils.Utils import info, debug
+from Color.ConvertColorService import ConvertColor
+from utils.Utils import info, getDateTime
 from imutils.video import VideoStream
 import numpy as np
 import argparse
@@ -32,6 +33,8 @@ class DetectHelmetTensoFLow():
 			info("loading face helmet detector model...")
 			self.helmetNet = load_model("src\TensorFlow\data\helmet_detector.model")
 
+			self.Color = ConvertColor()
+
 	def detectAndPredictHelmet(self, frame):
 		"""Compute the prediction to find the helmet"""
 
@@ -53,65 +56,59 @@ class DetectHelmetTensoFLow():
 
 		# loop over the detections
 		for i in range(0, detections.shape[2]):
-			# extract the confidence (i.e., probability) associated with
-			# the detection
 			confidence = detections[0, 0, i, 2]
 
-			# filter out weak detections by ensuring the confidence is
-			# greater than the minimum confidence
 			if confidence > 0.5:
-				# compute the (x, y)-coordinates of the bounding box for
-				# the object
+
 				box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
 				(startX, startY, endX, endY) = box.astype("int")
 
-				# ensure the bounding boxes fall within the dimensions of
-				# the frame
 				(startX, startY) = (max(0, startX), max(0, startY))
 				(endX, endY) = (min(w - 1, endX), min(h - 1, endY))
 
-				# extract the face ROI, convert it from BGR to RGB channel
-				# ordering, resize it to 224x224, and preprocess it
+
 				face = frame[startY:endY, startX:endX]
-				face = cv2.cvtColor(face, cv2.COLOR_BGR2RGB)
+				face = self.Color.convert_to_gray(frame)
 				face = cv2.resize(face, (224, 224))
 				face = img_to_array(face)
 				face = preprocess_input(face)
 				face = np.expand_dims(face, axis=0)
 
-				# add the face and bounding boxes to their respective
-				# lists
 				faces.append(face)
 				locs.append((startX, startY, endX, endY))
 
 		# only make a predictions if at least one face was detected
 		if len(faces) > 0:
-			# for faster inference we'll make batch predictions on *all*
-			# faces at the same time rather than one-by-one predictions
-			# in the above `for` loop
 			preds = self.helmetNet.predict(faces[0])
 
-		# return a 2-tuple of the face locations and their corresponding
-		# locations
 		return (locs, preds)
 
 	def callThePredictHelmet(self, frame: object) -> None:
 		"""Call the method to do detetion and prediction helmet"""
 
 		(locs, preds) = self.detectAndPredictHelmet(frame)
-		debug(locs, preds)
+		# debug(locs, preds)
 
 		for (box, pred) in zip(locs, preds):
 
 			(startX, startY, endX, endY) = box
 			(helmet, withoutHelmet) = pred
-			print(helmet,withoutHelmet)
 
 			label = "Helmet" if helmet > withoutHelmet else "No Helmet"
 			color = (0, 255, 0) if label == "Helmet" else (0, 0, 255)
 
-			### Verify percentege without helmet
-			# if ......
+			xpercet, endXpercent = startX*0.2 ,endX*0.2
+			ypercet, endYpercent = startY*0.4 ,endY*0.2
+
+			if withoutHelmet > 0.5:
+				# cv2.rectangle(frame, (xpercet, startY-int(endXpercent)), (endX+int(ypercet), endY-int(endYpercent)), color, 2)
+				# cv2.imshow("Stream Frame",frame[startX-int(xpercet):startY-int(endXpercent),endX+int(ypercet):endY-int(endYpercent)])
+				pass
+			
+			if helmet > 0.8:
+				roi = frame[startY-int(ypercet):endY-int(endYpercent), startX-int(xpercet):endX+int(endXpercent)]
+				cv2.imshow('cut_image.jpg',roi)
+
 
 			label = "{}: {:.2f}%".format(label, max(helmet, withoutHelmet) * 100)
 

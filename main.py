@@ -17,9 +17,9 @@ while True:
 Sistema de gerenciamento de Funcionários em Obras\n
 ======================
 [1] - Cadastrar Face
-[2] - Registrar Ponto
-[3] - Reconhecimento de Capacete HC
-[4] - Reconhecimento de Capacete TF
+[2] - Registro de Ponto
+[3] - Monitoramento de Capacete HC
+[4] - Monitoramento de Capacete TF
 [9] - Sair
 ======================""")
 	key = int(input("Escolha uma opção: "))
