@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 
-from utils.Utils import userRandonId, getDateTime
+from utils.Utils import userRandonId, getDateTime, critical, done
 
 
 class DetectHelmetColor():
@@ -57,9 +57,10 @@ class DetectHelmetColor():
 				)
 
 				# Escreve no arquivo access.txt
-				with open(".\\security\\access.txt", 'a') as arquivo:
+				with open(".\\security\\access.txt", 'a', encoding='utf-8') as arquivo:
 					photo_id = userRandonId()
-					arquivo.write(f'{getDateTime()} - USUÁRIO NÃO AUTORIZADO! Cod:{photo_id}\n')
+					done('Authorized Access! Cod.',time=True)
+					arquivo.write(f'{getDateTime()} - Authorized Access! Cod. Photo:{photo_id}\n')
 					return photo_id
 
  
@@ -82,9 +83,10 @@ class DetectHelmetColor():
 				)
 
 				# Escreve no arquivo access.txt
-				with open(".\\security\\access.txt", 'a') as arquivo:
+				with open(".\\security\\access.txt", 'a', encoding='utf-8') as arquivo:
 					photo_id = userRandonId()
-					arquivo.write(f'{getDateTime()} - USUÁRIO NÃO AUTORIZADO! Cod:{photo_id}\n')
+					critical('Unauthorized Access!',time=True)
+					arquivo.write(f'{getDateTime()} - Unauthorized Access! Cod. Photo:{photo_id}\n')
 					return photo_id
 
 
@@ -108,8 +110,9 @@ class DetectHelmetColor():
 				)
 
 				# Escreve no arquivo access.txt
-				with open(".\\security\\access.txt", 'a', ) as arquivo:
+				with open(".\\security\\access.txt", 'a', encoding='utf-8' ) as arquivo:
 					photo_id = userRandonId()
-					arquivo.write(f'{getDateTime()} - USUÁRIO AUTORIZADO! Cod:{photo_id}\n')
+					critical('Unauthorized Access!',time=True)
+					arquivo.write(f'{getDateTime()} - Unauthorized Access! Cod. Photo:{photo_id}\n')
 					return photo_id
 

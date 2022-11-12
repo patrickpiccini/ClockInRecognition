@@ -102,7 +102,7 @@ class DetectHelmetTensoFLow():
 					photo_id = userRandonId()
 					# REGISTRE EMPLOYEE WITHOUT HELMET
 					#-----------------------------------------------------   
-					cv2.imwrite(f".\\security\\unauthorized_access\\without_helmet_{photo_id}.jpg",frame)
+					cv2.imwrite(f".\\security\\without_helmet\\without_helmet_{photo_id}.jpg",frame)
 					self.withoutHelmet = 0
 			
 			if helmet > 0.8:
