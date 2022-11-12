@@ -54,9 +54,10 @@ class Recognizer(PreperedFilesRecognition):
 				self.faces_encodings, face_encoding)
 			best_match_index = np.argmin(face_distances)
 
-			# registro de log no banco de dados
 			if matches[best_match_index]:
 				name = self.registred_faces_names[best_match_index]
+				
+				# REGISTRE POINT ON DATABASE
 				registred_clock = self.clockIn.clockInOfEmployee(name)
 
 			self.captured_face_names.append(name)

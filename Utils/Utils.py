@@ -15,13 +15,15 @@ def userRandonId() -> str :
 
 
 def getDateTime() -> str:
+	"""Get day and hour"""
 	date_time_now = datetime.now()
-	return date_time_now.strftime('%Y/%m/%d %H:%M')
+	return date_time_now.strftime('%d/%m/%Y %H:%M')
 
 
 def getDate() -> str:
+	"""Get only day"""
 	date_time_now = datetime.now()
-	return date_time_now.strftime('%Y-%m-%d')
+	return date_time_now.strftime('%d-%m-%Y')
 
 
 def inputEmployeeData() -> list:
@@ -66,6 +68,35 @@ def verifyUserExistence(name: str) -> bool:
 						info("------Preencha os dados novamente------")
 						return False, False
 	return True, False
+
+
+
+def createRecognizedFacesDir() -> None:
+	"""Verify and create face dir if not exists"""
+	if not os.path.exists(os.getcwd()+'\\faces\\'):
+		os.mkdir(os.getcwd()+'\\faces\\')
+
+def createSecurityDir() -> None:
+	"""Verify and create security dir if not exists"""
+	if not os.path.exists(os.getcwd()+'\\security\\'):
+		os.mkdir(os.getcwd()+'\\security\\')
+
+def createUnauthorizedAccessyDir() -> None:
+	"""Verify and create unauthorized_access dir if not exists"""
+	if not os.path.exists(os.getcwd()+'\\security\\unauthorized_access\\'):
+		os.mkdir(os.getcwd()+'\\security\\unauthorized_access\\')
+
+def createWithoutHelmetDir() -> None:
+	"""Verify and create without_helmet dir if not exists"""
+	if not os.path.exists(os.getcwd()+'\\security\\without_helmet\\'):
+		os.mkdir(os.getcwd()+'\\security\\without_helmet\\')
+
+def createAccessFile() -> None:
+	"""Create access file"""
+	arquivo = open('.\\security\\access.txt', 'w')
+	arquivo.close()
+
+
 
 def done(text,error='',time='')-> str:
 	if time:

@@ -7,17 +7,13 @@ __exename__ = 'main'
 
 # import the necessary packages
 from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
+from ..Color.DetectHelmetColorService import DetectHelmetColor
 from tensorflow.keras.preprocessing.image import img_to_array
 from tensorflow.keras.models import load_model
-from Color.ConvertColorService import ConvertColor
-from utils.Utils import info, getDateTime
-from imutils.video import VideoStream
+from utils.Utils import info, userRandonId
 import numpy as np
-import argparse
-import imutils
-import time
 import cv2
-import os
+
 
 
 class DetectHelmetTensoFLow():
@@ -25,15 +21,15 @@ class DetectHelmetTensoFLow():
 	def __init__(self) -> None:
 			# load our serialized face detector model from disk
 			info('loading face detector model...')
-			self.prototxtPath = "src\\TensorFlow\\data\\deploy.prototxt"
-			self.weightsPath = "src\\TensorFlow\\data\\res10_300x300_ssd_iter_140000.caffemodel"
-			self.faceNet = cv2.dnn.readNet(self.prototxtPath, self.weightsPath)
+			self.prototxtPath 	: int = "src\\TensorFlow\\data\\deploy.prototxt"
+			self.weightsPath 	: int = "src\\TensorFlow\\data\\res10_300x300_ssd_iter_140000.caffemodel"
+			self.faceNet 		: object = cv2.dnn.readNet(self.prototxtPath, self.weightsPath)
 
 			# load the face helmet detector model from disk
 			info("loading face helmet detector model...")
-			self.helmetNet = load_model("src\TensorFlow\data\helmet_detector.model")
-
-			self.Color = ConvertColor()
+			self.helmetNet 		: str = load_model("src\TensorFlow\data\helmet_detector.model")
+			self.countHelmet 	: int = 0 
+			self.withoutHelmet 	: int = 0 
 
 	def detectAndPredictHelmet(self, frame):
 		"""Compute the prediction to find the helmet"""
@@ -68,7 +64,7 @@ class DetectHelmetTensoFLow():
 
 
 				face = frame[startY:endY, startX:endX]
-				face = self.Color.convert_to_gray(frame)
+				face = cv2.cvtColor(face, cv2.COLOR_BGR2RGB)
 				face = cv2.resize(face, (224, 224))
 				face = img_to_array(face)
 				face = preprocess_input(face)
@@ -98,20 +94,34 @@ class DetectHelmetTensoFLow():
 			color = (0, 255, 0) if label == "Helmet" else (0, 0, 255)
 
 			xpercet, endXpercent = startX*0.2 ,endX*0.2
-			ypercet, endYpercent = startY*0.4 ,endY*0.2
+			ypercet, endYpercent = startY*0.5 ,endY*0.2
 
 			if withoutHelmet > 0.5:
-				# cv2.rectangle(frame, (xpercet, startY-int(endXpercent)), (endX+int(ypercet), endY-int(endYpercent)), color, 2)
-				# cv2.imshow("Stream Frame",frame[startX-int(xpercet):startY-int(endXpercent),endX+int(ypercet):endY-int(endYpercent)])
-				pass
+				self.withoutHelmet +=1
+				if self.withoutHelmet == 30:
+					photo_id = userRandonId()
+					# REGISTRE EMPLOYEE WITHOUT HELMET
+					#-----------------------------------------------------   
+					cv2.imwrite(f".\\security\\without_helmet\\without_helmet_{photo_id}.jpg",frame)
+					self.withoutHelmet = 0
 			
 			if helmet > 0.8:
-				roi = frame[startY-int(ypercet):endY-int(endYpercent), startX-int(xpercet):endX+int(endXpercent)]
-				cv2.imshow('cut_image.jpg',roi)
+				if self.countHelmet == 20:
+					DHCS = DetectHelmetColor()
 
+					# CUT IMAGE
+					#-----------------------------------------------------   
+					roi = frame[startY-int(ypercet):endY-int(endYpercent), startX-int(xpercet):endX+int(endXpercent)]
+					photo_id = DHCS.helmetColor(roi)
+					cv2.imwrite(f".\\security\\unauthorized_access\\unauthorized_{photo_id}.jpg",frame)
+					self.countHelmet = 0
+				self.countHelmet +=1
 
 			label = "{}: {:.2f}%".format(label, max(helmet, withoutHelmet) * 100)
 
 			cv2.putText(frame, label, (startX, startY - 10),
 				cv2.FONT_HERSHEY_SIMPLEX, 0.45, color, 2)
 			cv2.rectangle(frame, (startX, startY), (endX, endY), color, 2)
+
+	def identifyWithoutHelmet(self, frame: object) -> None:
+		pass

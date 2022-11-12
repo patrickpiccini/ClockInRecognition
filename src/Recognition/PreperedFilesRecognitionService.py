@@ -15,16 +15,8 @@ class PreperedFilesRecognition(object):
 		self.list_of_file 	= []
 		self.list_of_names	= []
 		
-		self.createRecognizedFacesDir()
-		
-
-	def createRecognizedFacesDir(self) -> None:
-		"""Verify and create face dir if not exists"""
-		if not os.path.exists(self.face_dir):
-			os.mkdir(self.current_dir + "\\faces\\")
-
 		self.loadListOfFiles()
-	
+		
 	
 	def loadListOfFiles(self) -> None:
 		"""Load the list os files on face dir"""
