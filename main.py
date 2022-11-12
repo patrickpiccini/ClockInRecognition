@@ -7,21 +7,28 @@ from src.DataBase.DataBaseConnection import ConnectionDatabase
 from src.RegisterPoint.ClockInService import ClockIn
 from src.Camera.StreamService import OpenStream
 from src.Camera.CameraService import OpenCamera
+import os
 
-from utils.Utils import inputEmployeeData
+from utils.Utils import inputEmployeeData, createRecognizedFacesDir, createSecurityDir, createUnauthorizedAccessyDir, createWithoutHelmetDir, createAccessFile
 
 ConnectionDatabase().create_tables()
+createUnauthorizedAccessyDir()
+createRecognizedFacesDir()
+createWithoutHelmetDir()
+createSecurityDir()
+createAccessFile()
 
 while True:
-	print("""=== Bem Vindo ao SnapFace ===
-Sistema de gerenciamento de Funcionários em Obras\n
-======================
-[1] - Cadastrar Face
-[2] - Registro de Ponto
-[3] - Monitoramento de Capacete HC
-[4] - Monitoramento de Capacete TF
-[9] - Sair
-======================""")
+	os.system('cls')
+	print("{:-^50}\n".format("Bem Vindo ao SnapFace"))
+	print("Sistema de gerenciamento de Funcionários em Obras\n" \
+	"======================\n" \
+	"[1] - Cadastrar Face\n" \
+	"[2] - Registro de Ponto\n" \
+	"[3] - Monitoramento de Capacete HC\n" \
+	"[4] - Monitoramento de Capacete TF\n" \
+	"[9] - Sair\n" \
+	"======================\n") 
 	key = int(input("Escolha uma opção: "))
 
 	match key:

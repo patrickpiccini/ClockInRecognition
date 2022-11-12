@@ -4,19 +4,18 @@ __title__ = 'Identificação de Capacete usando HaarCascade'
 __exename__ = 'main'
 
 import cv2
-from ..Color.ConvertColorService import ConvertColor
 
 class HelmetCascade(object):
 
 	def __init__(self) -> None:
-		self.Color = ConvertColor()
+		pass
 
 	def cascade(self, frame: object):
 		"""Aply the haar cascade technique"""
-
+		
 		car_cascade = cv2.CascadeClassifier(".\\data\\train\\cascade.xml")
 
-		gray = self.Color.convert_to_gray(frame)
+		gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
 		objetos = car_cascade.detectMultiScale(gray, 3, 5)
 

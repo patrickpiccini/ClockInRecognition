@@ -12,6 +12,7 @@ data/negative
 data/positives
 data/dataset
 faces/
+security/
 .vscode/
 .Python
 build/
