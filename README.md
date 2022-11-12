@@ -94,6 +94,8 @@ zope.interface==5.5.0
 
 ```
 
-#### Diagrama
-![Diagrama](https://user-images.githubusercontent.com/66441004/200970468-5b2fa0c9-700a-42bd-b789-84ea021e5210.png)
+#### Diagra
+![Diagram](https://user-images.githubusercontent.com/66441004/201454398-6b1950eb-6250-4a8e-9b7e-4d0b6902e352.png)
+
+
 
