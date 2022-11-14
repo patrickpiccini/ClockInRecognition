@@ -79,7 +79,7 @@ class DetectHelmetTensoFLow():
 
 		return (locs, preds)
 
-	def callThePredictHelmet(self, frame: object) -> None:
+	def  callThePredictHelmet(self, frame: object) -> None:
 		"""Call the method to do detetion and prediction helmet"""
 
 		(locs, preds) = self.detectAndPredictHelmet(frame)
@@ -98,7 +98,7 @@ class DetectHelmetTensoFLow():
 
 			if withoutHelmet > 0.5:
 				self.withoutHelmet +=1
-				if self.withoutHelmet == 30:
+				if self.withoutHelmet == 60:
 					photo_id = userRandonId()
 					# REGISTRE EMPLOYEE WITHOUT HELMET
 					#-----------------------------------------------------   

@@ -7,7 +7,7 @@ from src.DataBase.DataBaseConnection import ConnectionDatabase
 from src.RegisterPoint.ClockInService import ClockIn
 from src.Camera.StreamService import OpenStream
 from src.Camera.CameraService import OpenCamera
-import os
+import os, time
 
 from utils.Utils import inputEmployeeData, createRecognizedFacesDir, createSecurityDir, createUnauthorizedAccessyDir, createWithoutHelmetDir, createAccessFile
 
@@ -18,8 +18,10 @@ createWithoutHelmetDir()
 createSecurityDir()
 createAccessFile()
 
+time.sleep(1)
+
+os.system('cls')
 while True:
-	os.system('cls')
 	print("{:-^50}\n".format("Bem Vindo ao SnapFace"))
 	print("Sistema de gerenciamento de Funcionários em Obras\n" \
 	"======================\n" \
