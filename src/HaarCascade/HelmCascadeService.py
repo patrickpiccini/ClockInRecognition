@@ -17,7 +17,7 @@ class HelmetCascade(object):
 
 		gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-		objetos = car_cascade.detectMultiScale(gray, 3, 5)
+		objetos = car_cascade.detectMultiScale(gray, 2, 8)
 
 		for (x, y, w, h) in objetos:
 			cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 0, 255), 2)

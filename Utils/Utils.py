@@ -14,6 +14,12 @@ def userRandonId() -> str :
 	return str(f'{number:0>5}')
 
 
+def getDateTimeDB() -> str:
+	"""Get day and hour"""
+	date_time_now = datetime.now()
+	return date_time_now.strftime('%Y/%m/%d %H:%M')
+
+
 def getDateTime() -> str:
 	"""Get day and hour"""
 	date_time_now = datetime.now()

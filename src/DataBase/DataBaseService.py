@@ -3,7 +3,7 @@ __author__  = 'Patrick Berlatto Piccini'
 __title__   = 'Interações com Banco de Dados'
 __exename__ = 'main'
 
-from utils.Utils import getDateTime, getDate, done, critical
+from utils.Utils import getDateTimeDB, done, critical
 from src.DataBase.DataBaseConnection import ConnectionDatabase
 
 class DataBase(ConnectionDatabase):
@@ -17,7 +17,7 @@ class DataBase(ConnectionDatabase):
 
 		try:
 			has_user = self.getUser(employee_id)
-			date= getDateTime()
+			date= getDateTimeDB()
 
 			if has_user:
 				query_insert = 'UPDATE users SET employee_id=%s, fullname=%s, password=%s, age=%s, created_at=%s, updated_at=%s WHERE employee_id=%s' 
@@ -56,7 +56,7 @@ class DataBase(ConnectionDatabase):
 	def selectAllClockInDay(self) -> None:
 		""" Select day information from clockin table """
 
-		todays_date = getDate()
+		todays_date = getDateTimeDB()
 		try:
 			query_select = f"SELECT employee_id, hour from clockin where date = '{todays_date}' ORDER BY date DESC;"
 			self.cursor.execute(query_select) 
@@ -75,8 +75,8 @@ class DataBase(ConnectionDatabase):
 		"""Insert information about user, to register point"""
 
 		try:
-			date = getDate()
-			hour = getDateTime()
+			date = getDateTimeDB()
+			hour = getDateTimeDB()
 			query_insert = 'INSERT INTO clockin (employee_id, item_description, fullname, date, hour)VALUES (%s,%s,%s,%s,%s)' 
 			vars_query = (employee_id, desc, name, date, hour)
 			self.cursor.execute(query_insert, vars_query)
