@@ -5,17 +5,27 @@ Professor: Marcos Roberto dos Santos
 Alunos: Eduardo Bido e Patrick Piccini
 
 ### Projeto
-O projeto tem como finalidade automatizar o "bater ponto" dos funcionários por reconhecimento facial e também reconhecer se este está usando capacete ou não.
+O projeto tem como finalidade automatizar o "bater ponto" dos funcionários por reconhecimento facial, reconhecer se este está usando capacete ou não e se o trabalhador com determinada cor de capacete tem acesso a determinado local.
 
 ### Requisitos
-* Aplicar técnicas de processamento de imagens como redimensionamento, recorte e mudança de cores - Ao registrar o ponto é feito um resize no frame original para prosseguir com a técnica de reconhecimento facial. ✅
-* Possui um HaarCascade - O HaarCascace está sendo utilizado no reconhecimendo do capacete. ✅
-* Gerar algum tipo de log - O registro de ponto está sendo considerado como log e este está sendo salvo no banco de dados. ✅
-* Possuir identificação facial - Está sendo usado na hora de registrar uma nova pessoa ou no momento de bater o ponto. ✅
-* Aplicar técnicas de binarização e detecção de bordas, aplicando correção morfológica nas imagens.
-* Incluir uma skill referente a seleção a seleção de objetos por cores, o qual deve executar alguma ação pré-definida.
 
-#### Biblioteca Usadas
+* ✅ Possui um HaarCascade - O HaarCascace está sendo utilizado no reconhecimendo do capacete.
+<img src = 'https://github.com/patrickpiccini/ClockInRecognition/blob/main/prints/07%20-%20Detec%C3%A7%C3%A3o%20de%20capacete%20por%20Haar%20Cascate.png' width='600'/>
+
+* ✅ Gerar algum tipo de log - O registro de ponto está sendo considerado como log e este está sendo salvo no banco de dados.
+<img src = 'https://github.com/patrickpiccini/ClockInRecognition/blob/main/prints/03%20-%20Registro%20de%20log%20do%20cadastro%20de%20usuario.png' width='600'/>
+<img src = 'https://github.com/patrickpiccini/ClockInRecognition/blob/main/prints/05%20-%20Registro%20de%20Log%20no%20postgres.png' width='600'/>
+
+* ✅ Possuir identificação facial - Está sendo usado no momento de bater o ponto, HaarCascade e TensorFlow.
+<img src = 'https://github.com/patrickpiccini/ClockInRecognition/blob/main/prints/06%20-%20detec%C3%A7%C3%A3o%20de%20faces%20registradas.png' width='400'/>
+
+
+* ✅ Aplicar técnicas de processamento de imagens como redimensionamento, recorte e mudança de cores - É recortado o capacete para reconecer a cor posteriormente
+* ✅ Incluir uma skill referente a seleção a seleção de objetos por cores, o qual deve executar alguma ação pré-definida. - É reconhecia a cor do recorte, e verificado se tem o acesso ao local
+* ✅ Aplicar técnicas de binarização e detecção de bordas, aplicando correção morfológica nas imagens. - Para deconhecer a Cor é feito a binarização para a detecção da borda do objeto capacete
+<img src = 'https://github.com/patrickpiccini/ClockInRecognition/blob/main/prints/10%20-%20Registro%20de%20Funcionario%20n%C3%A3o%20autorizado.png' width='600'/>
+
+### Biblioteca Usadas
 ```
 absl-py==1.3.0
 astunparse==1.6.3
@@ -94,8 +104,8 @@ zope.interface==5.5.0
 
 ```
 
-#### Diagra
-![Diagram](https://user-images.githubusercontent.com/66441004/201454398-6b1950eb-6250-4a8e-9b7e-4d0b6902e352.png)
+### Diagra
+<img src = 'https://user-images.githubusercontent.com/66441004/201454398-6b1950eb-6250-4a8e-9b7e-4d0b6902e352.png' width='800'/>
 
 
 
